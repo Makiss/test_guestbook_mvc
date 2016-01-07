@@ -1,20 +1,18 @@
 <?php
-  function sanitizeString($var) {
-    global $db_connection;
-    $var = str_ireplace("fuck", "****", $var);
-    $var = stripslashes($var);
-    $var = htmlentities($var);
-    $var = strip_tags($var);
-    $var = $db_connection->real_escape_string($var);
-    return $var;
-  }
-
-  function queryMysql($query) {
-    global $db_connection;
-    $result = $db_connection->query($query);
-    if(!$result) {
-      die($db_connection->error);
+    function sanitizeString($connection, $var) {
+        $var = str_ireplace("fuck", "****", $var);
+        $var = stripslashes($var);
+        $var = htmlentities($var);
+        $var = strip_tags($var);
+        $var = $connection->real_escape_string($var);
+        return $var;
     }
-    return $result;
-  }
+
+    function queryMysql($connection, $query) {
+        $result = $connection->query($query);
+        if(!$result) {
+            die($connection->error);
+        }
+        return $result;
+    }
 ?>
