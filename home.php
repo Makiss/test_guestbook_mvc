@@ -57,7 +57,7 @@
                         $rows = $result->num_rows;
 
                         if($rows) {
-                            $query = "SELECT * FROM users JOIN messages 
+                            $query = "SELECT * FROM messages JOIN users 
                             ON users.user_id=messages.user_id ORDER BY 
                             message_date";
                             $result = queryMysql($dbConnection, $query);
