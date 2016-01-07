@@ -1,0 +1,58 @@
+.navbar-inverse .pull-right {
+  padding: 15px 0;
+}
+
+.navbar-inverse .pull-right .user-name {
+  text-decoration: underline;
+}
+
+.navbar-inverse,
+.navbar-inverse .navbar-brand {
+  color: white;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+  display: inline;
+  color: #337ab7;
+}
+
+.container-signup,
+.container-message {
+  margin-top: 150px;;
+}
+
+.container-signup {
+  text-align: center;
+}
+
+.container-message form {
+  margin-bottom: 50px;
+}
+
+.container-message .user-post {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 2px solid lightblue;
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .navbar-inverse .navbar-brand {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-inverse .pull-right {
+    width: 100%;
+  }
+
+  .navbar-inverse .pull-right .nav {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar-inverse .pull-right .nav li {
+    width: 100%;
+    text-align: center;
+  }
+}
