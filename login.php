@@ -5,12 +5,14 @@
     include_once 'inc/functions.php';
 
     if(isset($_POST['btn-login'])) {
+        $stmt = $dbConnection->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
 
         $email = sanitizeString($dbConnection, $_POST['logemail']);
         $upass = hash('ripemd128', sanitizeString($dbConnection, $_POST['logpass']));
-
-        $result = queryMysql($dbConnection, "SELECT * FROM users WHERE 
-        email = '$email'");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
 
         $row = $result->fetch_array();
         if($row['password'] == $upass) {
@@ -41,11 +43,15 @@
             $error = "There was(were) error(s) in your sign up details:<br>" 
             . $error;
         } else {
+            $stmt = $dbConnection->prepare("SELECT * FROM users WHERE email= ?");
+            $stmt->bind_param("s", $email);
+
             $uname = sanitizeString($dbConnection, $_POST['uname']);
             $email = sanitizeString($dbConnection, $_POST['email']);
-      
-            $query = "SELECT * FROM users WHERE email='" . $email . "'";
-            $result = queryMysql($dbConnection, $query);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $stmt->close();
+
             $rows = mysqli_num_rows($result);
 
             if($rows) {
@@ -62,9 +68,11 @@
                     $cpass = hash('ripemd128', sanitizeString($dbConnection, $_POST['cpass']));
 
                     if($upass === $cpass) {
-                        $query = "INSERT INTO users(username,email,password) 
-                        VALUES('$uname','$email','$upass')";
-                        $result = queryMysql($dbConnection, $query);
+                        $stmt = $dbConnection->prepare("INSERT INTO users(username,email,password) 
+                        VALUES(?,?,?)");
+                        $stmt->bind_param("sss", $uname, $email, $upass);
+                        $stmt->execute();
+                        $stmt->close();
 
                         $_SESSION['user'] = mysqli_insert_id($dbConnection);
                         header("Location: home.php");
@@ -76,4 +84,5 @@
             }
         }
     }
+$dbConnection->close();
 ?>

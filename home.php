@@ -8,8 +8,11 @@
     $pageTitle = "Guestbook Home Page";
     include_once 'inc/head.php';
 
-    $query = "SELECT * FROM users WHERE user_id=" . $_SESSION['user'];
-    $result = queryMysql($dbConnection, $query);
+    $stmt = $dbConnection->prepare("SELECT * FROM users WHERE user_id= ?");
+    $stmt->bind_param("s", $_SESSION['user']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stmt->close();
     $row = $result->fetch_array();
 
     if(isset($_POST['submit'])) {
@@ -17,9 +20,11 @@
         $userId = $_SESSION['user'];
         $currentTime = time();
 
-        $query = "INSERT INTO messages (user_id, user_message, message_date) 
-        VALUES('$userId', '$userMessage', '$currentTime')";
-        $result = queryMysql($dbConnection, $query);
+        $stmt = $dbConnection->prepare("INSERT INTO messages (user_id, user_message, message_date) 
+        VALUES(?, ?, ?)");
+        $stmt->bind_param("sss", $userId, $userMessage, $currentTime);
+        $stmt->execute();
+        $stmt->close();
     }
 ?>
         <div class="navbar navbar-inverse navbar-fixed-top">
