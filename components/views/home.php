@@ -70,6 +70,7 @@
                             for($j = 0; $j < $rows; $j++) {
                                 $result->data_seek($j);
                                 $chunkRow = $result->fetch_array(MYSQLI_ASSOC);
+                                $chunkRow['user_message'] = stripslashes($chunkRow['user_message']);
 
                                 if($chunkRow['is_visible']) {
                                     $dateSubmitted = date("jS F Y", 
