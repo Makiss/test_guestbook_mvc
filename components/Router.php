@@ -1,4 +1,7 @@
 <?php
+namespace components;
+
+use components\Config as Config;
 
 class Router
 {
@@ -6,8 +9,7 @@ class Router
 
     public function __construct()
     {
-        $routesPath = ROOT.'/config/routes.php';
-        $this->routes = include($routesPath);
+        $this->routes = Config::getRoutes();
     }
 
     // return query string
@@ -22,7 +24,7 @@ class Router
     {
         // Receive query string
         $uri = $this->getURI();
-        $uri = substr($uri, 12);
+        $uri = substr($uri, 13);
 
         // Check availability of such a request in routes.php
         foreach ($this->routes as $uriPattern => $path) {
@@ -38,6 +40,7 @@ class Router
                 $segments = explode('/', $internalRoute);
 
                 $controllerName = array_shift($segments).'Controller';
+
                 $controllerName = ucfirst($controllerName);
 
                 $actionName = 'action'.ucfirst(array_shift($segments));
@@ -45,7 +48,7 @@ class Router
                 $parameters = $segments;
 
                 // Connect the file of class-controller
-                $controllerFile = ROOT . '/controllers/' .
+                $controllerFile = ROOT . '\\controllers\\' .
                                 $controllerName . '.php';
 
                 if (file_exists($controllerFile)) {
@@ -64,5 +67,3 @@ class Router
         }
     }
 }
-
-?>

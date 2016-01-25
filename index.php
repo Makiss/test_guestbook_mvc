@@ -1,4 +1,5 @@
 <?php
+use components\Router as Router;
 
 // FRONT CONTROLLER
 
@@ -8,10 +9,9 @@ error_reporting(E_ALL);
 
 // 2. Connection with system files.
 define('ROOT', dirname(__FILE__));
-require_once(ROOT . '/components/Autoload.php');
+include(ROOT . '\\components\\Autoload.php');
 
 //3. Router call.
+
 $router = new Router();
 $router->run();
-
-?>
