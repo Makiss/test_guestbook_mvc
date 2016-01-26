@@ -1,6 +1,5 @@
 <?php
 namespace components;
-
 use components\Config as Config;
 
 class Router
@@ -24,7 +23,6 @@ class Router
     {
         // Receive query string
         $uri = $this->getURI();
-        $uri = substr($uri, 13);
 
         // Check availability of such a request in routes.php
         foreach ($this->routes as $uriPattern => $path) {

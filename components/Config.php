@@ -16,9 +16,9 @@ class Config
     public static function getRoutes()
     {
         return array(
+            'user/logout' => 'user/logout', //actionLogout in UserController
             'user' => 'user/register', //actionRegister in UserController
-            'home' => 'home/index', //actionIndex in HomeController
-            'user/logout' => 'user/logout'
+            'home' => 'home/index' //actionIndex in HomeController
         );
     }
 }

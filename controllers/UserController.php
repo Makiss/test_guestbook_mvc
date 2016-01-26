@@ -5,6 +5,8 @@ class UserController
 {
     public function actionRegister()
     {
+        User::checkSession();
+
         if (isset($_POST['btn-signup'])) {
             $name = User::sanitizeString($_POST['uname']);
             $email = User::sanitizeString($_POST['email']);
@@ -53,7 +55,7 @@ class UserController
             } else {
                 User::auth($userId);
 
-                header('Location: \\my_guestbook\\home\\');
+                header('Location: \\home\\');
             }
         }
 
@@ -63,8 +65,8 @@ class UserController
 
     public function actionLogout()
     {
-        session_start();
+        session_destroy();
         unset($_SESSION['user']);
-        header('Location: /');
+        header('Location: \\user\\');
     }
 }

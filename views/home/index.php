@@ -11,7 +11,7 @@
                     <ul class="navbar-nav nav">
                         <li>Hi there! You're currently logged as <span
                         class="user-name"><?php echo $row['username']; ?>
-                        </span>&nbsp;<a href="<?php echo substr($_SERVER['REQUEST_URI'], 0, 13);?>/user/logout/">Sign Out</a></li>
+                        </span>&nbsp;<a href="<?php echo substr($_SERVER['REQUEST_URI'], 0, 0);?>/user/logout">Sign Out</a></li>
                     </ul>
                 </div>
             </div>

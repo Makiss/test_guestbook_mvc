@@ -12,7 +12,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="#" class="navbar-brand">GuestBook</a>
+                <a href="/user/register" class="navbar-brand">GuestBook</a>
             </div>
             <div class="collapse navbar-collapse">
                 <form method="post" class="navbar-form navbar-right">

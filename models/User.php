@@ -21,6 +21,15 @@ class User
         return $result->execute();
     }
 
+    public static function checkSession()
+    {
+        if(isset($_SESSION['user'])) {
+            header('Location: \\home\\');
+        } else {
+            return true;
+        }
+    }
+
     public static function sanitizeString($var)
     {
         $db = Db::getConnection();
@@ -97,17 +106,15 @@ class User
 
     public static function auth($userId)
     {
-        session_start();
         $_SESSION['user'] = $userId;
     }
 
     public static function checkLogged()
     {
-        session_start();
         if (isset($_SESSION['user'])) {
             return $_SESSION['user'];
         }
-        header('Location: /user/register');
+        header('Location: \\user\\register');
     }
 
     public static function getLoggedUserData($userId)
