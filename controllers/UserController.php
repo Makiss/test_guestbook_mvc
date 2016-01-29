@@ -6,12 +6,25 @@ class UserController
     public function actionRegister()
     {
         User::checkSession();
+        $arrayOfStates = User::fetchCountries();
+        if (isset($_GET['country_id'])) {
+            User::fetchRegions();
+            return true;
+        } elseif (isset($_GET['region_id'])) {
+            User::fetchCities();
+            return true;
+        } else {
+            unset($_GET);
+        }
 
         if (isset($_POST['btn-signup'])) {
             $name = User::sanitizeString($_POST['uname']);
             $email = User::sanitizeString($_POST['email']);
             $pass = User::sanitizeString($_POST['pass']);
             $cpass = User::sanitizeString($_POST['cpass']);
+            $country = User::sanitizeString($_POST['countries']);
+            $region = User::sanitizeString($_POST['regions']);
+            $city = User::sanitizeString($_POST['cities']);
 
             if (!User::checkName($name)) {
                 $error .= 'Please enter your name!<br>';
@@ -39,7 +52,7 @@ class UserController
                 } else {
                     $pass = hash('ripemd128', $pass);
                     $cpass = hash('ripemd128', $cpass);
-                    $result = User::register($name, $email, $pass);
+                    $result = User::register($name, $email, $pass, $country, $region, $city);
                     $message = 'You\'re registered!<br>Now you can log in!';
                 }
             }
@@ -58,7 +71,6 @@ class UserController
                 header('Location: \\home\\');
             }
         }
-
         require_once(ROOT . '\\views\\user\\index.php');
         return true;
     }

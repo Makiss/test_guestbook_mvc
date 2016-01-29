@@ -1,5 +1,6 @@
 <?php
 namespace components;
+
 use components\Config as Config;
 
 class Router

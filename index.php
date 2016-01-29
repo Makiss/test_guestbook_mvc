@@ -1,5 +1,6 @@
 <?php
 use components\Router as Router;
+
 session_start();
 
 // FRONT CONTROLLER

@@ -7,23 +7,26 @@ use PDO;
 class User
 {
 
-    public static function register($name, $email, $password)
+    public static function register($name, $email, $password, $country, $region, $city)
     {
         $db = Db::getConnection();
 
-        $query = 'INSERT INTO users(username,email,password) VALUES(:username, :email, :password)';
+        $query = 'INSERT INTO users(username, email, password, country_id, region_id, city_id) VALUES(:username, :email, :password, :countryId, :regionId, :cityId)';
 
         $result = $db->prepare($query);
         $result->bindParam(':username', $name, PDO::PARAM_STR);
         $result->bindParam(':email', $email, PDO::PARAM_STR);
         $result->bindParam(':password', $password, PDO::PARAM_STR);
+        $result->bindParam(':countryId', $country, PDO::PARAM_INT);
+        $result->bindParam(':regionId', $region, PDO::PARAM_INT);
+        $result->bindParam(':cityId', $city, PDO::PARAM_INT);
 
         return $result->execute();
     }
 
     public static function checkSession()
     {
-        if(isset($_SESSION['user'])) {
+        if (isset($_SESSION['user'])) {
             header('Location: \\home\\');
         } else {
             return true;
@@ -146,5 +149,56 @@ class User
         $result->execute();
 
         return true;
+    }
+
+    public static function fetchCountries()
+    {
+        $db = Db::getConnection();
+
+        $arrayOfStates = array();
+
+        $query = 'SELECT * FROM countries';
+        $result = $db->prepare($query);
+        $result->execute();
+        $rows = $result->rowCount();
+        for ($j = 0; $j<$rows; $j++) {
+            $chunkRow = $result->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT, $j);
+            $arrayOfStates[] = $chunkRow;
+        }
+        return $arrayOfStates;
+    }
+
+    public static function fetchRegions()
+    {
+        $db = Db::getConnection();
+
+        $arrayOfRegions = array();
+        $query = "SELECT * FROM regions WHERE country_id='" . $_GET['country_id'] . "'";
+        $result = $db->prepare($query);
+        $result->execute();
+        $rows = $result->rowCount();
+        for ($j = 0; $j<$rows; $j++) {
+            $chunkRow = $result->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT, $j);
+            $arrayOfRegions[] = $chunkRow;
+        }
+
+        print_r(json_encode($arrayOfRegions));
+    }
+
+    public static function fetchCities()
+    {
+        $db = Db::getConnection();
+
+        $arrayOfCities = array();
+        $query = "SELECT * FROM cities WHERE region_id='" . $_GET['region_id'] . "'";
+        $result = $db->prepare($query);
+        $result->execute();
+        $rows = $result->rowCount();
+        for ($j = 0; $j<$rows; $j++) {
+            $chunkRow = $result->fetch(PDO::FETCH_ASSOC, PDO::FETCH_ORI_NEXT, $j);
+            $arrayOfCities[] = $chunkRow;
+        }
+
+        print_r(json_encode($arrayOfCities));
     }
 }

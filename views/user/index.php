@@ -55,30 +55,42 @@
                     }
                     ?>
                     <div class="form-group">
-                    <input type="text" name="uname" class="form-control"
-                    placeholder="User Name" value="<?php if (isset($name)) {
-                        echo $name;
+                        <input type="text" name="uname" class="form-control"
+                        placeholder="User Name" value="<?php if (isset($name)) {
+                            echo $name;
 } ?>" required>
                     </div>
                     <div class="form-group">
-                    <input type="email" name="email" class="form-control"
-                    placeholder="Your Email" value="<?php if (isset($name)) {
-                        echo $email;
+                        <input type="email" name="email" class="form-control"
+                        placeholder="Your Email" value="<?php if (isset($name)) {
+                            echo $email;
 } ?>" required>
                     </div>
                     <div class="form-group">
-                    <input type="password" name="pass" class="form-control"
-                    placeholder="Your Password" required>
+                        <input type="password" name="pass" class="form-control"
+                        placeholder="Your Password" required>
                     </div>
                     <div class="form-group">
-                    <input type="password" name="cpass" class="form-control"
-                    placeholder="Confirm Password" required>
+                        <input type="password" name="cpass" class="form-control"
+                        placeholder="Confirm Password" required>
+                    </div>
+                    <div class="form-group" id="select-group">
+                        <select name="countries" class="form-control  countries">
+                            <option value="0">Please choose your country:</option>
+                            <?php
+                            for ($j = 0; $j < count($arrayOfStates); $j++) {
+                                echo <<< _END
+                                        <option value="{$arrayOfStates[$j]['id']}">{$arrayOfStates[$j]['country_name']}</option>
+_END;
+                            }
+                            ?>
+                        </select>
                     </div>
                     <input type="submit" name="btn-signup" class="btn
                     btn-success btn-lg" value="Sign Me Up">
                     <?php
                     }
-                ?>
+                    ?>
                 </form>
             </div>
         </div>
